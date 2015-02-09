@@ -4,7 +4,13 @@ namespace Arena;
 class Arena{
 
   private $board;
-  private $robots = ["A"=>["bot"=>null, "position"=>null], "B"=>["bot"=>null, "position"=>null]];
+  private $robots = ["A"=>["bot"=>null, 
+                           "position"=>null,
+                           "life" => 10], 
+                     "B"=>["bot"=>null, 
+                           "position"=>null,
+                           "life" => 10]
+                    ];
 
   public function __construct($ascii){
     $this->board = [];
@@ -44,10 +50,10 @@ class Arena{
   }
 
   public function charAround($x, $y){
-    $data = []
+    $data = [];
     for($j = $y -2 ; $j <= $y +2 ; $j++){
       $l = [];
-      for($i = $x -2 ; $j <= $x +2 ; $x++){
+      for($i = $x -2 ; $i <= $x +2 ; $i++){
         $l[] = $this->charAtPosition($i,$j);
       }
       $data[] = $l;
@@ -62,7 +68,28 @@ class Arena{
 
   public function turn(){
     foreach ($this->robots as &$r) {
-      # code...
+      $rx = $r["position"]->x;
+      $ry = $r["position"]->y;
+      $r["bot"]->notifyPosition($rx,$ry);
+      $r["bot"]->notifySurroundings($this->charAround($rx,$rx));
+      switch($r["bot"]->decide()){
+        case RobotOrder::TURN_LEFT:
+          $r["position"]->rotate('left');
+          break;
+        case RobotOrder::TURN_RIGHT:
+          $r["position"]->rotate('right');
+          break;
+        case RobotOrder::AHEAD:
+          $r["position"]->ahead();
+          if($this->canEnter($r["position"]->x,$r["position"]->y)){
+            $r["position"]->commitMove();
+          }else{
+            $r["position"]->rollbackMove();
+          }
+          break;
+        case RobotOrder::FIRE:
+          break;
+      }
     }
 
   }

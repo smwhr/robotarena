@@ -34,6 +34,40 @@ class RobotPosition{
     }
   }
 
+  public function rotate($sens){
+    if($sens == "left"){
+      switch($this->direction){
+        case "N":
+          $this->direction = "W";
+        break;
+        case "S":
+          $this->direction = "E";
+          break;
+        case "E":
+          $this->direction = "N";
+          break;
+        case "W":
+          $this->direction = "S";
+          break;
+      }
+    }else if($sens == "right"){
+      switch($this->direction){
+        case "N":
+          $this->direction = "E";
+        break;
+        case "S":
+          $this->direction = "W";
+          break;
+        case "E":
+          $this->direction = "S";
+          break;
+        case "W":
+          $this->direction = "N";
+          break;
+      }
+    }
+  }
+
   public function commitMove(){
     //ok
   }

@@ -9,13 +9,21 @@ class DefaultRobot implements RobotInterface{
     $this->name = $name;
   }
 
-  public function notifyPosition(int $x, int $y){
+  public function notifyPosition($x,$y){
 
   }
   public function notifySurroundings($data){
 
   }
+  public function notifyEnnemy($direction){
+
+  }
   public function decide(){
-    return RobotOrder::FIRE;
+    $orders = [RobotOrder::TURN_LEFT,
+               RobotOrder::TURN_RIGHT,
+               RobotOrder::AHEAD,
+               RobotOrder::FIRE];
+    shuffle($orders);
+    return $orders[0];
   }
 }
