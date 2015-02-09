@@ -9,29 +9,36 @@ class RobotPosition{
   private $_old_x;
   private $_old_y;
 
-  public function __construct($x, $y){
+  private $new_x;
+  private $new_y;
+
+  public function __construct($x, $y, $direction){
     $this->x = $x;
     $this->y = $y;
+    $this->direction = $direction;
   }
 
   public function ahead(){
     $this->_old_x = $this->x;
     $this->_old_y = $this->y;
+    $this->new_x  = $this->x;
+    $this->new_y  = $this->y;
 
     switch($this->direction){
       case "N":
-        $this->y--;
+        $this->new_y = $this->y - 1;
         break;
       case "S":
-      $this->y++;
+        $this->new_y = $this->y + 1;
         break;
       case "E":
-        $this->x++;
+        $this->new_x = $this->x + 1;
         break;
       case "W":
-        $this->y--;
+        $this->new_x = $this->x - 1;
         break;
     }
+    return [$this->new_x, $this->new_y];
   }
 
   public function rotate($sens){
@@ -69,11 +76,16 @@ class RobotPosition{
   }
 
   public function commitMove(){
-    //ok
+    $this->x = $this->new_x;
+    $this->y = $this->new_y;
   }
 
   public function rollbackMove(){
     $this->x = $this->_old_x;
     $this->y = $this->_old_y;
+  }
+
+  public function copy(){
+    return new RobotPosition($this->x, $this->y, $this->direction);
   }
 }

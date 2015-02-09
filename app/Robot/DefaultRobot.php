@@ -9,7 +9,7 @@ class DefaultRobot implements RobotInterface{
     $this->name = $name;
   }
 
-  public function notifyPosition($x,$y){
+  public function notifyPosition($x,$y,$direction){
 
   }
   public function notifySurroundings($data){
