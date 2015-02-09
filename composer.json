@@ -1,0 +1,11 @@
+{
+  "autoload": {
+        "psr-0": {
+            "Arena": "app",
+            "Robot": "app"
+        }
+    },
+    "require": {
+        "cboden/ratchet": "~0.3"
+    }
+}
