@@ -1,6 +1,6 @@
 <?php 
 session_start();
-require "../vendor/autoload.php";
+require __DIR__."/../vendor/autoload.php";
 
 
 if(isset($_POST['RESET']) || isset($_GET['RESET'])){
@@ -9,42 +9,22 @@ if(isset($_POST['RESET']) || isset($_GET['RESET'])){
   exit;
 }
 
-$ascii_board = <<<EOF
-xxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxx
-xx..................xx
-xx..................xx
-xx..A...............xx
-xx..................xx
-xx..................xx
-xx..................xx
-xx..................xx
-xx..................xx
-xx..................xx
-xx..................xx
-xx..................xx
-xx..................xx
-xx..................xx
-xx..................xx
-xx..................xx
-xx..................xx
-xx..............B...xx
-xx..................xx
-xxxxxxxxxxxxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxxxx
-EOF;
-
+include "board.php";
 
 if(!isset($_SESSION['arena'])){
   $arena = new Arena\Arena($ascii_board);
   $robotA = new Robot\DefaultRobot("A");
-  $robotB = new Robot\DefaultRobot("B");
+  $robotB = new Robot\MadShooter("B");
   $arena->loadRobots([$robotA,$robotB]);
 }else{
   $arena = unserialize($_SESSION['arena']);
 }
 
-$turn_report = $arena->turn();
+try{
+  $turn_report = $arena->turn();
+}catch(Arena\WinningCondition $wc){
+  $turn_report[] = $wc->getMessage();
+}
 
 
 //don't forget to save to session the new state

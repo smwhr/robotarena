@@ -53,7 +53,8 @@ class Arena{
         return "<span class='player".$r['bot']->name."'>".$player."</span>";
       }
     }
-    return $this->board[$y][$x];
+    $selectedLine = $this->board[$y];
+    return $selectedLine[$x];
   }
 
   public function charAround($x, $y, $graphical = false){
@@ -84,6 +85,8 @@ class Arena{
       return "Bullet hit a wall";
     }else{
       $this->robots[$obstacle]["life"]--;
+      if($this->robots[$obstacle]["life"] == 0)
+        throw new WinningCondition($obstacle." is DEAD !");
       switch ($bulletPosition->direction) {
         case "N":
           $from = "S";
@@ -106,11 +109,15 @@ class Arena{
   public function turn(){
     $report = [];
     foreach ($this->robots as $name => &$r) {
+      if($r["life"] == 0)
+        throw new WinningCondition($name." is DEAD !");
       $rx = $r["position"]->x;
       $ry = $r["position"]->y;
       $rdir = $r["position"]->direction;
-      $r["bot"]->notifyPosition($rx,$ry, $rdir);
-      $r["bot"]->notifySurroundings($this->charAround($rx,$rx));
+      //inform the bot
+      $r["bot"]->notifyPosition($r["position"]->copy());
+      $r["bot"]->notifySurroundings($this->charAround($rx,$ry));
+      //take its decision
       switch($r["bot"]->decide()){
         case RobotOrder::TURN_LEFT:
           $r["position"]->rotate('left');
@@ -135,6 +142,8 @@ class Arena{
           $report[] = $this->bullet($r["position"]->copy());
           break;
       }
+      if($r["life"] == 0)
+        throw new WinningCondition($name." is DEAD !");
     }
     return $report;
   }

@@ -3,10 +3,12 @@ namespace Robot;
 
 use Arena\RobotOrder;
 
-class DefaultRobot implements RobotInterface{
+class MadShooter implements RobotInterface{
+  public $turn;
 
   public function __construct($name){
     $this->name = $name;
+    $this->turn = 0;
   }
 
   public function notifyPosition(\Arena\RobotPosition $position){
@@ -19,11 +21,12 @@ class DefaultRobot implements RobotInterface{
 
   }
   public function decide(){
-    $orders = [RobotOrder::TURN_LEFT,
-               RobotOrder::TURN_RIGHT,
-               RobotOrder::AHEAD,
-               RobotOrder::FIRE];
-    shuffle($orders);
-    return $orders[0];
+    $this->turn++;
+    if($this->turn%2 == 0){
+      return RobotOrder::FIRE;
+    }else{
+      return RobotOrder::TURN_RIGHT;
+    }
+    
   }
 }

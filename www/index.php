@@ -85,6 +85,11 @@
       <button type="submit" name="RESET" class="btn btn-danger">RESET</button>
     </form>
   </div>
+  <!--
+  <div class="row">
+    <?php //var_dump($arena->robots);?>
+  </div>
+  -->
 
 </div>
 
