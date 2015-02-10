@@ -13,7 +13,7 @@ include "board.php";
 
 if(!isset($_SESSION['arena'])){
   $arena = new Arena\Arena($ascii_board);
-  $robotA = new Robot\DefaultRobot("A");
+  $robotA = new Robot\TestRobot("A");
   $robotB = new Robot\MadShooter("B");
   $arena->loadRobots([$robotA,$robotB]);
 }else{
