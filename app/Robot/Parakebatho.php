@@ -61,14 +61,14 @@ class Parakebatho implements RobotInterface{
                         $orders = RobotOrder::TURN_LEFT;
                     }
                     break;
-                case 'W':
+                case 'E':
                     if ($this->table[2][4] != 'x') {
                         $orders = RobotOrder::AHEAD;
                     } else {
                         $orders = RobotOrder::TURN_LEFT;
                     }
                     break;
-                case 'E':
+                case 'W':
                     if ($this->table[2][0] != 'x') {
                         $orders = RobotOrder::AHEAD;
                     } else {
