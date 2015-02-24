@@ -9,8 +9,8 @@ xx..........xx
 xx..A.......xx
 xx..........xx
 xx..........xx
-xx.....B....xx
 xx..........xx
+xx.......B..xx
 xx..........xx
 xx..........xx
 xxxxxxxxxxxxxx

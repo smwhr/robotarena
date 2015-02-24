@@ -118,7 +118,9 @@ class Arena{
       $r["bot"]->notifyPosition($r["position"]->copy());
       $r["bot"]->notifySurroundings($this->charAround($rx,$ry));
       //take its decision
-      switch($r["bot"]->decide()){
+      $decision = $r["bot"]->decide();
+      //var_dump($decision);
+      switch($decision){
         case RobotOrder::TURN_LEFT:
           $r["position"]->rotate('left');
           $report[] = $name." turned left";
@@ -141,6 +143,8 @@ class Arena{
           $report[] = $name." shooted";
           $report[] = $this->bullet($r["position"]->copy());
           break;
+        default:
+          $report[] = $name." stayed there";
       }
       if($r["life"] == 0)
         throw new WinningCondition($name." is DEAD !");
