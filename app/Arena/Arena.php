@@ -54,6 +54,7 @@ class Arena{
       }
     }
     $selectedLine = $this->board[$y];
+    if(!isset($selectedLine[$x])) return 'x';
     return $selectedLine[$x];
   }
 
